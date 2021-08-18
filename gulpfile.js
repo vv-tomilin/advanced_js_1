@@ -1,10 +1,12 @@
+/*eslint-disable */
 "use strict";
 
 const gulp = require("gulp");
 const webpack = require("webpack-stream");
 const browsersync = require("browser-sync");
 
-const dist = "./dist/";
+// const dist = "./dist/";
+const dist = "C:/MAMP/htdocs/js_advanced_1";
 
 gulp.task("copy-html", () => {
     return gulp.src("./src/index.html")
