@@ -1,14 +1,11 @@
+import checkNumInputs from './checkNumInputs';
+
 /* eslint no-param-reassign: "error" */
-const forms = () => {
+const forms = (state) => {
   const form = document.querySelectorAll('form');
   const inputs = document.querySelectorAll('input');
-  const phoneInputs = document.querySelectorAll('input[name="user_phone"]');
 
-  phoneInputs.forEach((item) => {
-    item.addEventListener('input', () => {
-      item.value = item.value.replace(/\D/, '');
-    });
-  });
+  checkNumInputs('input[name="user_phone"]');
 
   const message = {
     loading: 'Загрузка...',
@@ -44,10 +41,18 @@ const forms = () => {
 
       const formData = new FormData(item);
 
-      postData('../../assets/server.php', formData)
+      if (item.getAttribute('data-calc') === 'end') {
+        /* eslint-disable */
+        for (const key in state) {
+          formData.append(key, state[key]);
+        }
+        /* eslint-enable */
+      }
+
+      postData('assets/server.php', formData)
         .then((res) => {
-          statusMessage.textContent = message.success;
           console.log(res);
+          statusMessage.textContent = message.success;
         })
         .catch(() => {
           statusMessage.textContent = message.failure;
